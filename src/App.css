@@ -13,9 +13,6 @@
 }
 
 .drawing {
-  background-color: white;
-  width: 425px;
-  height: 425px;
   position: absolute;
   top: 25%;
   left: 50%;
