@@ -4,8 +4,9 @@ import Button from "./Button";
 import Paintbrush from "./images/paintbrush.png";
 import Paintbucket from "./images/paintbucket.png";
 import Eraser from "./images/erase.png";
+import Reset from "./images/reset.png";
 import './App.css';
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const styles = {
   border: '0.0625rem solid #9c9c9c',
@@ -15,6 +16,31 @@ const styles = {
 const Canvas = () => {
 
   const canvasRef = React.useRef();
+  const [eraseMode, setEraseMode] = useState(false);
+  const [strokeWidth, setStrokeWidth] = useState(5);
+  const [eraserWidth, setEraserWidth] = useState(10);
+
+  const handleEraserClick = () => {
+    setEraseMode(true);
+    if (canvasRef.current != null) {
+      canvasRef.current.eraseMode(true)
+    }
+  }
+
+  const handlePenClick = () => {
+    setEraseMode(false);
+    if (canvasRef.current != null) {
+      canvasRef.current.eraseMode(false);
+    }
+  }
+
+  const handleStrokeWidthChange = (event) => {
+    setStrokeWidth(+event.target.value);
+  }
+
+  const handleEraserWidthChange = (event) => {
+    setEraserWidth(+event.target.value);
+  }
 
   const clearCanvas = () => {
     canvasRef.current.clearCanvas();
@@ -24,7 +50,7 @@ const Canvas = () => {
     {
       icon: <img src={Paintbrush} alt="Paintbrush" className="icon"/>,
       label: "Paintbrush",
-      onClick: () => console.log("Paintbrush Clicked")
+      onClick: () => handlePenClick()
     },
     {
       icon:  <img src={Paintbucket} alt="Paintbucket" className="icon"/>,
@@ -32,8 +58,13 @@ const Canvas = () => {
       onClick: () => console.log("Paintbucket Clicked")
     },
     {
-      icon:  <img src={Eraser} alt="Erase" className="icon"/>,
+      icon: <img src={Eraser} alt="Paintbucket" className="icon"/>,
       label: "Eraser",
+      onClick: () => handleEraserClick()
+    },
+    {
+      icon:  <img src={Reset} alt="Reset" className="icon"/>,
+      label: "Reset",
       onClick: () => clearCanvas()
     }
   ]
@@ -51,7 +82,8 @@ const Canvas = () => {
         style={styles}
         width="27em"
         height="27em"
-        strokeWidth={4}
+        strokeWidth={strokeWidth}
+        eraserWidth={eraserWidth}
         strokeColor="blue"
         ref={canvasRef} />
       </>
