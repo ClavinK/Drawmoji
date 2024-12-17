@@ -5,6 +5,8 @@ import Paintbrush from "./images/paintbrush.png";
 import Paintbucket from "./images/paintbucket.png";
 import Eraser from "./images/erase.png";
 import Reset from "./images/reset.png";
+import Undo from "./images/undo.png";
+import Redo from "./images/redo.png";
 import './App.css';
 import { useRef, useState } from "react";
 
@@ -20,6 +22,18 @@ const Canvas = () => {
   const [strokeWidth, setStrokeWidth] = useState(5);
   const [eraserWidth, setEraserWidth] = useState(10);
   const [strokeColor, setStrokeColor] = useState("#000000");
+
+  const handleUndoClick = () => {
+    if (canvasRef.current != null) {
+      canvasRef.current.undo();
+    }
+  }
+
+  const handleRedoClick = () => {
+    if (canvasRef.current != null) {
+      canvasRef.current.redo();
+    }
+  }
 
   const handleStrokeColorChange = (event) => {
     setStrokeColor(event.target.value);
@@ -66,6 +80,16 @@ const Canvas = () => {
       icon: <img src={Eraser} alt="Paintbucket" className="icon"/>,
       label: "Eraser",
       onClick: () => handleEraserClick()
+    },
+    {
+      icon: <img src={Undo} alt="Undo" className="icon"/>,
+      label: "Undo",
+      onClick: () => handleUndoClick()
+    },
+    {
+      icon: <img src={Redo} alt="Redo" className="icon"/>,
+      label: "Redo",
+      onClick: () => handleRedoClick()
     },
     {
       icon:  <img src={Reset} alt="Reset" className="icon"/>,
