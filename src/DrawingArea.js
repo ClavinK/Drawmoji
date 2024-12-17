@@ -19,6 +19,11 @@ const Canvas = () => {
   const [eraseMode, setEraseMode] = useState(false);
   const [strokeWidth, setStrokeWidth] = useState(5);
   const [eraserWidth, setEraserWidth] = useState(10);
+  const [strokeColor, setStrokeColor] = useState("#000000");
+
+  const handleStrokeColorChange = (event) => {
+    setStrokeColor(event.target.value);
+  }
 
   const handleEraserClick = () => {
     setEraseMode(true);
@@ -71,6 +76,14 @@ const Canvas = () => {
 
   return (
     <>
+    <div className="d-flex gap-2 align-items-center">
+      <label htmlFor="color">Stroke Color</label>
+      <input
+        type="color"
+        value={strokeColor}
+        onChange={handleStrokeColorChange}
+      />
+    </div>
     <div className="tool-buttons">
       {buttonsConfig.map((button, index) => <Button
         key={index}
@@ -78,15 +91,43 @@ const Canvas = () => {
         onClick={button.onClick} />
       )}
     </div>
+    <label htmlFor="strokeWidth" className="form-label">
+      Stroke Width
+    </label>
+    <input
+      disabled={eraseMode}
+      type="range"
+      className="form-range"
+      min="1"
+      max="20"
+      step="1"
+      id="strokeWidth"
+      value={strokeWidth}
+      onChange={handleStrokeWidthChange}
+      />
+    <label htmlFor="eraserWidth" className="form-label">
+      Eraser width
+    </label>
+    <input
+      disabled={!eraseMode}
+      type="range"
+      className="form-range"
+      min="1"
+      max="20"
+      step="1"
+      id="eraserWidth"
+      value={eraserWidth}
+      onChange={handleEraserWidthChange}
+    />
     <ReactSketchCanvas
-        style={styles}
-        width="27em"
-        height="27em"
-        strokeWidth={strokeWidth}
-        eraserWidth={eraserWidth}
-        strokeColor="blue"
-        ref={canvasRef} />
-      </>
+      style={styles}
+      width="27em"
+      height="27em"
+      strokeWidth={strokeWidth}
+      eraserWidth={eraserWidth}
+      strokeColor={strokeColor}
+      ref={canvasRef} />
+    </>
   );
 };
 
